@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status')->default('pending'); // pending, completed, cancelled
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            // $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 

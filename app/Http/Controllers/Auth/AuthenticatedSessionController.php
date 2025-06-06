@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
 
+
+namespace App\Http\Controllers\Auth;
+//  app/Http/Controllers/Auth/AuthenticatedSessionController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -27,6 +29,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        $user = Auth::user();
+        // Adjust this check to your admin logic (e.g., $user->role === 'admin')
+        if ($user && $user->admin) {
+            return redirect()->route('AdminDashboard');
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

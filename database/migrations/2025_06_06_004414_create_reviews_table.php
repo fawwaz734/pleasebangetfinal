@@ -13,14 +13,14 @@ public function up()
 {
     Schema::create('reviews', function (Blueprint $table) {
         $table->uuid('id')->primary();
-        $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
-        $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
-        $table->integer('rating'); // 1 to 5
+        $table->uuid('user_id')->constrained()->onDelete('cascade');
+        $table->uuid('product_id')->constrained('product')->onDelete('cascade');
+        $table->integer('rating'); // 1 ampe 5
         $table->text('comment')->nullable();
         $table->timestamps();
 
-        $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-        $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
+        // $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+        // $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
     });
 }
 

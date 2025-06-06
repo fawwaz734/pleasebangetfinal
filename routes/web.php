@@ -17,4 +17,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\AdminController\AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/most-bought-products', [App\Http\Controllers\AdminController\AdminDashboardController::class, 'getMostBoughtProducts'])->name('most.bought.products');
+
+    Route::resource('products', App\Http\Controllers\AdminController\ProductController::class);
+ 
+});
+
 require __DIR__.'/auth.php';
