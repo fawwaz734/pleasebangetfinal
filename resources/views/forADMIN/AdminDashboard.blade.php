@@ -1,4 +1,7 @@
-    <form method="GET" action="#" class="mb-8 p-4 bg-white rounded-lg shadow-sm flex flex-col sm:flex-row gap-4 items-center">
+@extends('layouts.app')
+
+@section('content')
+<form method="GET" action="{{ route('forADMIN.products.index') }}" class="mb-8 p-4 bg-white rounded-lg shadow-sm flex flex-col sm:flex-row gap-4 items-center">
     <div class="flex-grow w-full sm:w-auto">
         <label for="search-input" class="sr-only">Cari produk...</label>
         <input type="text" id="search-input" name="search" placeholder="Cari berdasarkan nama produk..."
@@ -19,7 +22,7 @@
             class="w-full sm:w-auto px-5 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out">
         Filter
     </button>
-    <a href="#"
+    <a href="{{ route('forADMIN.products.index') }}"
        class="w-full sm:w-auto px-5 py-2 bg-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition duration-150 ease-in-out text-center">
         Reset
     </a>
@@ -33,16 +36,15 @@
 @else
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         @foreach ($products as $product)
-            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-                <div class="relative h-48 w-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                    @if($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="object-cover h-full w-full">
-                    @else
-                        <svg class="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    @endif
-                </div>
+            <<div class="relative h-48 w-full bg-gray-200 flex items-center justify-center overflow-hidden">
+    @if($product->image)
+        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="object-cover max-h-32 w-auto mx-auto rounded">
+    @else
+        <svg class="h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+    @endif
+</div>
                 <div class="p-5 flex-grow">
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $product->name }}</h3>
                     <p class="text-lg font-bold text-gray-700 mb-2">Rp{{ number_format($product->price) }}</p>
@@ -53,11 +55,11 @@
                     </p>
                 </div>
                 <div class="px-5 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
-                    <a href="#"
+                    <a href="{{ route('forADMIN.products.edit', $product->id) }}"
                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                        Edit
                     </a>
-                    <form action="#" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">
+                    <form action="{{ route('forADMIN.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
@@ -70,3 +72,4 @@
         @endforeach
     </div>
 @endif
+@endsection
