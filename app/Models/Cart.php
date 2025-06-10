@@ -25,7 +25,7 @@ class Cart extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            // Mengisi kolom 'id' dengan UUID baru sebelum menyimpan
+            
             $model->{$model->getKeyName()} = Str::uuid()->toString();
         });
     }

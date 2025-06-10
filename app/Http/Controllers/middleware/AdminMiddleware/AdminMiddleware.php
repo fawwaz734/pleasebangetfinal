@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\middleware\Middelware;
+namespace App\Http\Controllers\middleware\AdminMiddelware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -20,6 +20,7 @@ class AdminMiddleware
         // Check if the user is authenticated and has the 'admin' role
         if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
+            return redirect()->route('AdminDashboard');
         }
 
         // If not an admin, redirect to the home page or show an error

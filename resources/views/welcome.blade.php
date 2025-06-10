@@ -206,6 +206,7 @@
             <div class="container mx-auto">
                 <ul class="flex space-x-4 justify-center">
                     <li><a href="#">Permen</a></li>
+                     <
                     <li><a href="#">Makanan Ringan</a></li>
                     <li><a href="#">Berdasarkan Merek</a></li>
                     <li><a href="#">Berdasarkan Warna</a></li>

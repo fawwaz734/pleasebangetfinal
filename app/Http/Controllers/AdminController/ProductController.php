@@ -5,7 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\str;
+// use Illuminate\Support\str;
+use Illuminate\Support\Str;//jojo
 use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {

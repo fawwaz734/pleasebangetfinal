@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Http\Controllers\Auth;
 //  app/Http/Controllers/Auth/AuthenticatedSessionController;
 use App\Http\Controllers\Controller;
@@ -32,10 +30,14 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
         // Adjust this check to your admin logic (e.g., $user->role === 'admin')
+        // if ($user && $user->admin) {
+        //     return redirect()->route('AdminDashboard');
+        //  } fawwaz
+
         if ($user && $user->admin) {
             return redirect()->route('AdminDashboard');
-        }
-
+        } //jojo
+        // dd($user);
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
@@ -49,7 +51,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+        
 
-        return redirect('/');
+        // return redirect('dashboard')->with('status', 'Logged out successfully.');
+        return redirect('/')->with('status', 'Logged out successfully.');
     }
 }

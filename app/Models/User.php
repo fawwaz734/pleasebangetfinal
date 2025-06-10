@@ -2,58 +2,46 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str; // PENTING: Tambahkan ini untuk menggunakan Str::uuid()
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
-    
-    protected $primaryKey = 'id'; 
-    public $incrementing = false; 
-    protected $keyType = 'string'; 
-    
+    use HasFactory, Notifiable, HasUuids;
 
     /**
-     * The "booting" method of the model.
+     * Indicates if the IDs are auto-incrementing.
      *
-     * @return void
+     * @var bool
      */
-    // --- PENTING: Tambahkan metode boot() ini ---
-    protected static function boot()
-    {
-        parent::boot();
+    public $incrementing = false;
 
-        static::creating(function ($model) {
-            // Mengisi kolom 'id' dengan UUID baru sebelum menyimpan
-            $model->{$model->getKeyName()} = Str::uuid()->toString();
-        });
-    }
-    // ------------------------------------------
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    // protected $keyType = 'string'; // Sudah benar menggunakan UUIDs dengan HasUuids trait
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role', 
         'money',
-        'role',
-        
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -61,15 +49,33 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'money' => 'decimal:2', 
+    ];
+
+    /**
+     * Check if the user has an admin role.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if the user has a user role.
+     *
+     * @return bool
+     */
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
     }
 }
