@@ -78,7 +78,9 @@
     <main class="container mt-8">
         <section class="hero-section">
             <h1>Jual Permen & Snack Online</h1>
-            <button>Lihat Semua Snack</button>
+            <a href="{{ route('snacks.index') }}">
+    <button type="button">Lihat Semua Snack</button>
+</a>
         </section>
 
         <section class="py-8 popular-categories">

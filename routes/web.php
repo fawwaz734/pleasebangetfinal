@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController\AdminDashboardController;
 use App\Http\Controllers\AdminController\ProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\SnackController;
 use App\Models\Product;
 
 // Halaman depan: tampilkan produk terbaru
@@ -40,6 +41,8 @@ Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->name('admin.')-
 });
 
 // Resource route untuk forADMIN.products.* agar Blade tidak error
+// Bagian ini penting agar semua route CRUD (index, create, store, show, edit, update, destroy) 
+// dengan nama forADMIN.products.* tersedia untuk kebutuhan view admin
 Route::resource('foradmin/products', ProductController::class)->names([
     'index' => 'forADMIN.products.index',
     'create' => 'forADMIN.products.create',
@@ -49,6 +52,8 @@ Route::resource('foradmin/products', ProductController::class)->names([
     'update' => 'forADMIN.products.update',
     'destroy' => 'forADMIN.products.destroy',
 ]);
+
+Route::get('/snacks', [SnackController::class, 'index'])->name('snacks.index');
 
 // Route untuk halaman permen (contoh halaman lain)
 Route::get('/permen', function () {

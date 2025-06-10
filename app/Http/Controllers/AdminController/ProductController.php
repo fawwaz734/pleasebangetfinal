@@ -26,6 +26,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
+            'stock' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -33,6 +34,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
+        $product->stock = $request->stock;
 
         if ($request->hasFile('image')) {
             $imageName = Str::random(10) . '.' . $request->image->extension();
@@ -61,14 +63,17 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
+            'stock' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
+        $product->stock = $request->stock;
 
         if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
             if ($product->image && file_exists(public_path($product->image))) {
                 unlink(public_path($product->image));
             }
@@ -84,6 +89,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        // Hapus gambar jika ada
         if ($product->image && file_exists(public_path($product->image))) {
             unlink(public_path($product->image));
         }
