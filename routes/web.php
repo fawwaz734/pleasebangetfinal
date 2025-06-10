@@ -7,8 +7,6 @@
 
 
 
-
-
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -79,13 +77,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route admin (hanya satu group, tidak duplikat)
+
 Route::middleware(['auth', 'AdminMiddleware'])->prefix('admin')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('AdminDashboard');
     Route::get('/most-bought-products', [AdminDashboardController::class, 'getMostBoughtProducts'])->name('most.bought.products');
     Route::resource('products', ProductController::class);
 });
- Route::get('/permen', function () {
+
+Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
+Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
+ 
+Route::resource('foradmin/products', ProductController::class)->names([
+    'index' => 'forADMIN.products.index',
+    'create' => 'forADMIN.products.create',
+    'store' => 'forADMIN.products.store',
+    'show' => 'forADMIN.products.show',
+    'edit' => 'forADMIN.products.edit',
+    'update' => 'forADMIN.products.update',
+    'destroy' => 'forADMIN.products.destroy',
+]);
+
+Route::get('/permen', function () {
     return view('permen.Permen');
 })->name('permen');
 

@@ -12,7 +12,7 @@
             </p>
         </div>
 
-        <form class="mt-8 space-y-6" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+        <form class="mt-8 space-y-6" action="{{ route('forADMIN.products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="rounded-md shadow-sm -space-y-px">

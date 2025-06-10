@@ -19,11 +19,14 @@ class AdminDashboardController extends Controller
         $totalUsers = User::count();
         $totalOrders = OrderDetail::count();
         $totalProducts = Product::count();
+        $products= Product::all();
 
-        return view('admin.dashboard', [
+
+        return view('forADMIN.AdminDashboard', [
             'totalUsers' => $totalUsers,
             'totalOrders' => $totalOrders,
             'totalProducts' => $totalProducts,
+            'products' => $products,
         ]);
     }
 

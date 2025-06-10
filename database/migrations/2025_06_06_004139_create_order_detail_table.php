@@ -9,7 +9,7 @@ return new class extends Migration
 {
 public function up()
 {
-    Schema::create('orders_details', function (Blueprint $table) {
+    Schema::create('order_details', function (Blueprint $table) {
         // $table->engine= 'InnoDB';
         
         $table->uuid('id')->primary();

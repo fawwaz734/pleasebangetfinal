@@ -1,35 +1,25 @@
 <?php
 
 namespace App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Order;
 use App\Models\Product;
-// use Illuminate\Support\str;
-use Illuminate\Support\Str;//jojo
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $products = Product::all();
-        return view('admin.products.index', compact('products'));
+        return view('forADMIN.products.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.products.create');
+        return view('forADMIN.products.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -52,28 +42,19 @@ class ProductController extends Controller
 
         $product->save();
 
-    return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
-}
-
-/**
- * Display the specified resource.
- */
-public function show(Product $product)
-{
-    return view('admin.products.show', compact('product'));
-}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        return view('admin.products.edit', compact('product'));
+        return redirect()->route('forADMIN.products.index')->with('success', 'Product created successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function show(Product $product)
+    {
+        return view('forADMIN.products.show', compact('product'));
+    }
+
+    public function edit(Product $product)
+    {
+        return view('forADMIN.products.edit', compact('product'));
+    }
+
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -88,7 +69,7 @@ public function show(Product $product)
         $product->description = $request->description;
 
         if ($request->hasFile('image')) {
-            if ($product->image) {
+            if ($product->image && file_exists(public_path($product->image))) {
                 unlink(public_path($product->image));
             }
             $imageName = Str::random(10) . '.' . $request->image->extension();
@@ -98,18 +79,15 @@ public function show(Product $product)
 
         $product->save();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('forADMIN.products.index')->with('success', 'Product updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
     {
-        if ($product->image) {
+        if ($product->image && file_exists(public_path($product->image))) {
             unlink(public_path($product->image));
         }
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('forADMIN.products.index')->with('success', 'Product deleted successfully.');
     }
 }
